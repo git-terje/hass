@@ -8,4 +8,5 @@
   "codeowners": ["@git-terje"],
   "iot_class": "local_polling",
   "integration_type": "diagnostic"
+  "config_flow": true
 }
