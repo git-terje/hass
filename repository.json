@@ -1,1 +1,5 @@
-
+{
+  "name": "Git-Terje Home Assistant Repo",
+  "url": "https://github.com/git-terje/hass",
+  "maintainer": "Git-Terje"
+}
