@@ -9,5 +9,19 @@
     "panel_icon": "mdi:cash-register",
     "panel_title": "HA POS",
     "image": "ghcr.io/git-terje/ha_pos"
+  },
+  "ha_sysinfo": {
+    "name": "Home Assistant System Info",
+    "version": "1.0.1",
+    "slug": "ha_sysinfo",
+    "description": "Collects and exposes system info, addons, integrations and filtered logs.",
+    "arch": ["aarch64", "amd64", "armv7", "i386"],
+    "startup": "application",
+    "boot": "auto",
+    "hassio_api": true,
+    "homeassistant_api": true,
+    "panel_icon": "mdi:information",
+    "panel_title": "HA Sysinfo",
+    "image": "ghcr.io/git-terje/ha_sysinfo"
   }
 }
