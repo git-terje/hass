@@ -8,6 +8,7 @@
   "boot": "auto",
   "ingress": true,
   "ingress_port": 8091,
+  "hassio_api": true,
   "panel_icon": "mdi:cash-register",
   "panel_title": "HA POS",
   "options": {
