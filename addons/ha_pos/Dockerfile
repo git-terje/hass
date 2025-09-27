@@ -3,11 +3,15 @@ FROM ${BUILD_FROM}
 
 WORKDIR /usr/src/app
 
-# Installer nødvendige Python-pakker
+# Installer Python og dependencies
 RUN apk add --no-cache python3 py3-pip
+
+# Kopier requirements og installer
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+# Kopier app-kode
 COPY run.py ./
 
+# Default kommando
 CMD ["python3", "run.py"]
