@@ -3,7 +3,11 @@ FROM ${BUILD_FROM}
 
 WORKDIR /usr/src/app
 
-# Kopier run.sh inn i containeren
+# Installer Python hvis nødvendig
+RUN apk add --no-cache python3 py3-pip
+
+# Kopier kode og run.sh
+COPY run.py ./
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
