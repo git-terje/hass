@@ -1,8 +1,11 @@
-FROM alpine:3.18
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:15.0.6
+FROM ${BUILD_FROM}
 
-RUN apk add --no-cache bash curl jq
+WORKDIR /usr/src/app
 
+# Kopier run.sh inn i containeren
 COPY run.sh /run.sh
-RUN chmod +x /run.sh
+RUN chmod a+x /run.sh
 
-CMD ["/run.sh"]
+# Kjør scriptet
+CMD [ "/run.sh" ]
