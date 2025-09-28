@@ -20,3 +20,5 @@ RUN chmod +x /run.sh
 
 EXPOSE 8180
 CMD [ "/run.sh" ]
+
+ENV PYTHONPATH=/app/backend
