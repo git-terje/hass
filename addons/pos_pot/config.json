@@ -1,7 +1,7 @@
 {
   "name": "POS Pot",
   "slug": "pos_pot",
-  "version": "0.1.1",
+  "version": "0.1.7",
   "description": "Point of Sale system for cannabis sales integrated with Home Assistant (MariaDB backend).",
   "arch": ["amd64", "armv7", "aarch64"],
   "startup": "services",
