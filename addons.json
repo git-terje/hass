@@ -1,7 +1,7 @@
 {
   "ha_pos": {
     "name": "HA Point of Sales",
-    "version": "0.2.8",
+    "version": "0.2.9",
     "slug": "ha_pos",
     "description": "Point of Sales system for Home Assistant using Google Sheets backend (with ingress, secrets-based, all platforms)",
     "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
