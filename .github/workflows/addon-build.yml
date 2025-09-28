@@ -9,6 +9,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+  packages: write   # gir rettigheter til GHCR
+
 jobs:
   build:
     runs-on: ubuntu-latest
