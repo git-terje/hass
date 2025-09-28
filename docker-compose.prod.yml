@@ -13,29 +13,25 @@ services:
     networks:
       - posnet
 
-  backend:
-    build: ./backend
-    restart: unless-stopped
-    environment:
-      DATABASE_URL: postgres://posuser:pospass@db:5432/posdb
-    expose:
-      - "8000"
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
-    networks:
-      - posnet
+backend:
+  image: ghcr.io/git-terje/hass-backend:latest
+  restart: unless-stopped
+  environment:
+    DATABASE_URL: postgres://posuser:pospass@db:5432/posdb
+  expose:
+    - "8000"
+  networks:
+    - posnet
 
-  frontend:
-    image: nginx:alpine
-    restart: unless-stopped
-    depends_on:
-      - backend
-    volumes:
-      - ./frontend/build:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    ports:
-      - "8180:80"
-    networks:
-      - posnet
+frontend:
+  image: ghcr.io/git-terje/hass-frontend:latest
+  restart: unless-stopped
+  depends_on:
+    - backend
+  ports:
+    - "8180:80"
+  networks:
+    - posnet
 
 volumes:
   pos_db_data:
