@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        addon: [ha_pos, ha_sysinfo, pos_pot]
+        addon: [ha_sysinfo, pos_pot]
 
     steps:
       - name: Checkout repository
