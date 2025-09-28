@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: read
-  packages: write   # nødvendig for å pushe til GHCR
+  packages: write   # gir rettigheter til GHCR
 
 jobs:
   build:
@@ -35,6 +35,36 @@ jobs:
 
       - name: Build and push frontend
         uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/hass-frontend:latest
+
+      - name: Build and push POS Pot add-on
+        uses: docker/build-push-action@v4
+        with:
+          context: ./addons/pos_pot
+          file: ./addons/pos_pot/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/pos_pot:latest
+            ghcr.io/${{ github.repository_owner }}/pos_pot:${{ github.ref_name }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /opt/pos
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d        uses: docker/build-push-action@v4
         with:
           context: ./frontend
           push: true
