@@ -1,1 +1,16 @@
+{
+  "name": "POS System",
+  "version": "0.1.0",
+  "slug": "ha_pos",
+  "description": "Point of Sale backend/frontend for cannabis resellers integrated with Home Assistant.",
+  "arch": ["amd64", "armv7", "aarch64"],
+  "startup": "services",
+  "boot": "auto",
+  "ports": {
+    "8180/tcp": 8180
+  },
+  "map": ["config:rw", "ssl:rw", "share:rw"],
+  "options": {},
+  "schema": {}
+}
 
