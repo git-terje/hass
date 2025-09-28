@@ -1,40 +1,30 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  db:
-    image: postgres:15
-    restart: unless-stopped
+  backend:
+    image: ghcr.io/git-terje/hass-backend:latest
+    container_name: hass-backend
+    restart: always
     environment:
-      POSTGRES_USER: posuser
-      POSTGRES_PASSWORD: pospass
-      POSTGRES_DB: posdb
-    volumes:
-      - pos_db_data:/var/lib/postgresql/data
-    networks:
-      - posnet
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "8000:8000"
 
-backend:
-  image: ghcr.io/git-terje/hass-backend:latest
-  restart: unless-stopped
-  environment:
-    DATABASE_URL: postgres://posuser:pospass@db:5432/posdb
-  expose:
-    - "8000"
-  networks:
-    - posnet
+  frontend:
+    image: ghcr.io/git-terje/hass-frontend:latest
+    container_name: hass-frontend
+    restart: always
+    ports:
+      - "3000:3000"
 
-frontend:
-  image: ghcr.io/git-terje/hass-frontend:latest
-  restart: unless-stopped
-  depends_on:
-    - backend
-  ports:
-    - "8180:80"
-  networks:
-    - posnet
-
-volumes:
-  pos_db_data:
+  pos_pot:
+    image: ghcr.io/git-terje/pos_pot:latest
+    container_name: pos-pot
+    restart: always
+    ports:
+      - "8180:8180"
+    environment:
+      - DATABASE_URL=mysql+pymysql://homeassistant:deploy@core-mariadb/homeassistant  pos_db_data:
 
 networks:
   posnet:
