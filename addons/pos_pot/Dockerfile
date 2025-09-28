@@ -7,14 +7,14 @@ RUN apt-get update && apt-get install -y gcc libmariadb-dev-compat libmariadb-de
 # Sett arbeidsmappe
 WORKDIR /app
 
-# Kopier backend-kode inn i add-on image
-COPY ./backend /app/backend
-COPY ./backend/requirements.txt /app/backend/
+# Kopier backend
+COPY backend/ /app/backend
+COPY backend/requirements.txt /app/backend/
 
-# Installer Python-deps
+# Installer Python dependencies
 RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
-# Kopier run.sh (riktig sti!)
+# Kopier run.sh
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
