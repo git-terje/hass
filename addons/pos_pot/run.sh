@@ -10,7 +10,7 @@ echo "[INFO] Using database URL: $DATABASE_URL"
 
 # Init database schema hvis tom
 python3 <<'PYCODE'
-from app.database import Base, engine
+from backend.app.database import Base, engine
 import sys
 
 try:
@@ -23,4 +23,4 @@ PYCODE
 
 # Start API
 cd /app/backend
-uvicorn app.main:app --host 0.0.0.0 --port 8180
+uvicorn main:app --host 0.0.0.0 --port 8180
