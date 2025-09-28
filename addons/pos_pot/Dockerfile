@@ -14,7 +14,7 @@ RUN npm install && npm run build
 
 # Kjør backend + serve frontend
 WORKDIR /app
-COPY addons/ha_pos/run.sh /run.sh
+COPY addons/pos&pot/run.sh /run.sh
 RUN chmod +x /run.sh
 
 EXPOSE 8180
