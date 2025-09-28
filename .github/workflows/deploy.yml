@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: read
-  packages: write   # <- gir Actions lov å opprette/pushe GHCR images
+  packages: write   # nødvendig for å pushe til GHCR
 
 jobs:
   build:
