@@ -1,9 +1,13 @@
-#!/usr/bin/env bash
-CONFIG_PATH=/data/options.json
-DB_URL=$(jq --raw-output ".db_url" $CONFIG_PATH)
+#!/bin/bash
+set -e
 
-export DATABASE_URL=$DB_URL
-export PYTHONPATH=/app/backend  # viktig for at uvicorn finner app.main
+# Hent database URL fra add-on options.json
+export DATABASE_URL=$(jq -r .db_url /data/options.json)
+
+# Sett PYTHONPATH slik at app/ kan importeres riktig
+export PYTHONPATH=/app/backend
 
 cd /app/backend
-uvicorn app.main:app --host 0.0.0.0 --port 8180
+
+# Start FastAPI via uvicorn
+exec uvicorn app.main:app --host 0.0.0.0 --port 8180
