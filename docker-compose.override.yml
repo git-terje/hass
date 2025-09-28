@@ -1,1 +1,44 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: posuser
+      POSTGRES_PASSWORD: pospass
+      POSTGRES_DB: posdb
+    volumes:
+      - pos_db_data:/var/lib/postgresql/data
+    networks:
+      - posnet
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://posuser:pospass@db:5432/posdb
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - posnet
+
+  frontend:
+    image: nginx:alpine
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/build:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8180:80"
+    networks:
+      - posnet
+
+volumes:
+  pos_db_data:
+
+networks:
+  posnet:
+    driver: bridge
 
