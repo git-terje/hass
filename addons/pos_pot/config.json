@@ -18,6 +18,5 @@
   },
   "url": "https://github.com/git-terje/hass",
   "maintainer": "git-terje",
-  "stage": "experimental",
-  "image": "ghcr.io/git-terje/pos_pot"
+  "stage": "experimental"
 }
