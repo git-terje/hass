@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routes import health, products, resellers
+from .routes import health, products, resellers, sales
 from .database import Base, engine
 
 app = FastAPI()
@@ -11,6 +11,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(health.router)
 app.include_router(products.router)
 app.include_router(resellers.router)
+app.include_router(sales.router)
 
 @app.get("/api")
 def root():
