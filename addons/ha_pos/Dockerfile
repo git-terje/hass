@@ -3,15 +3,17 @@ FROM ${BUILD_FROM}
 
 WORKDIR /usr/src/app
 
-# Installer Python og dependencies
+# Installer Python og pip
 RUN apk add --no-cache python3 py3-pip
 
-# Kopier requirements og installer (med override)
+# Kopier requirements og installer (med override for PEP 668)
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
-# Kopier app-kode
+# Kopier app-kode og oppstartsscript
 COPY run.py ./
+COPY run.sh /run.sh
+RUN chmod a+x /run.sh
 
-# Default kommando
-CMD ["python3", "run.py"]
+# Standard kommando
+CMD [ "/run.sh" ]
