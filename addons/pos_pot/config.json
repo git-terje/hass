@@ -1,7 +1,7 @@
 {
   "name": "POS Pot",
-  "version": "0.1.0",
   "slug": "pos_pot",
+  "version": "0.1.1",
   "description": "Point of Sale system for cannabis sales integrated with Home Assistant (MariaDB backend).",
   "arch": ["amd64", "armv7", "aarch64"],
   "startup": "services",
@@ -10,6 +10,10 @@
     "8180/tcp": 8180
   },
   "map": ["config:rw", "ssl:rw", "share:rw"],
-  "options": {},
-  "schema": {}
+  "options": {
+    "db_url": "mysql+pymysql://homeassistant:deploy@core-mariadb/homeassistant"
+  },
+  "schema": {
+    "db_url": "str"
+  }
 }
