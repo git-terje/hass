@@ -13,5 +13,5 @@
   "host_network": true,
   "panel_icon": "mdi:information",
   "panel_title": "HA Sysinfo",
-  "image": "ghcr.io/git-terje/ha_sysinfo/{arch}-addon-ha_sysinfo"
+  "image": "ghcr.io/git-terje/ha_sysinfo"
 }
