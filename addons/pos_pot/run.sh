@@ -9,5 +9,5 @@ export PYTHONPATH=/app/backend
 
 cd /app/backend
 
-# Start FastAPI via uvicorn gjennom Python, med riktig app-dir
-exec python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8180 --app-dir /app/backend
+# Start FastAPI via uvicorn, peker direkte til main.py i app/
+exec python3 -m uvicorn main:app --host 0.0.0.0 --port 8180 --app-dir /app/backend/app
