@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        addon: [ha_sysinfo, pos_pot]
+        addon: [pos_pot, openthc_pos, ha_sysinfo]
 
     steps:
       - name: Checkout repository
@@ -20,30 +20,17 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Build and push add-on
         run: |
-          build_from=$(jq -r '.build_from.amd64' addons/${{ matrix.addon }}/build.json)
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            --build-arg BUILD_FROM=${build_from} \
-            -t ghcr.io/${{ github.repository_owner }}/${{ matrix.addon }}:latest \
-            -t ghcr.io/${{ github.repository_owner }}/${{ matrix.addon }}:${{ github.ref_name }} \
+            -t ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ matrix.addon }}:latest \
+            -t ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ matrix.addon }}:${{ github.ref_name }} \
             addons/${{ matrix.addon }} \
             --push
-
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /opt/pos
-            docker compose -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.prod.yml up -d
