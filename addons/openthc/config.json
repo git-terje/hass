@@ -5,9 +5,8 @@
   "arch": ["aarch64", "amd64"],
   "startup": "services",
   "boot": "auto",
-  "ports": {
-    "8280/tcp": 8280
-  },
+  "ingress": true,
+  "ingress_port": 8280,
   "panel_icon": "mdi:storefront",
   "panel_title": "OpenTHC POS",
   "options": {
