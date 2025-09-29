@@ -1,10 +1,7 @@
-# Home Assistant add-on Dockerfile for POS Pot
-
-# Bruk Home Assistant sitt baseimage
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Installer systemavhengigheter (Alpine-pakker)
+# Installer avhengigheter
 RUN apk add --no-cache \
     python3 \
     py3-pip \
@@ -12,19 +9,15 @@ RUN apk add --no-cache \
     mariadb-connector-c-dev \
     build-base
 
-# Sett arbeidsmappe
-WORKDIR /app
+# Kopier backend
+COPY backend /app/backend
+COPY run.sh /app/run.sh
 
-# Kopier backend og installer Python dependencies
-COPY backend/ /app/backend
-RUN pip3 install --no-cache-dir -r /app/backend/requirements.txt
+# Gjør run.sh kjørbar
+RUN chmod a+x /app/run.sh
 
-# Kopier run.sh
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
+# Legg til service-fil for s6-overlay
+COPY rootfs/ /
 
-# Sørg for at uvicorn finner FastAPI-app
-ENV PYTHONPATH=/app/backend
-
-EXPOSE 8180
-CMD [ "/run.sh" ]
+# Bruk s6-overlay som init
+CMD [ "/init" ]
