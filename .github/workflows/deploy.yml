@@ -1,40 +1,32 @@
-name: Deploy POS
+name: Deploy POS Pot
 
 on:
   push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  packages: write   # nødvendig for GHCR
+    tags:
+      - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to GitHub Container Registry
+      - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push POS Pot add-on
-        uses: docker/build-push-action@v4
-        with:
-          context: ./addons/pos_pot
-          file: ./addons/pos_pot/Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/pos_pot:latest
+      - name: Build POS Pot Add-on
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -t ghcr.io/${{ github.repository_owner }}/pos_pot:latest \
+            -t ghcr.io/${{ github.repository_owner }}/pos_pot:${{ github.ref_name }} \
+            addons/pos_pot \
+            --push            ghcr.io/${{ github.repository_owner }}/pos_pot:latest
             ghcr.io/${{ github.repository_owner }}/pos_pot:${{ github.ref_name }}
 
   deploy:
