@@ -1,3 +1,4 @@
+
 {
   "name": "Home Assistant System Info",
   "version": "1.0.7",
@@ -10,6 +11,7 @@
   "homeassistant_api": true,
   "auth_api": true,
   "host_network": true,
-  "options": {},
-  "schema": {}
+  "panel_icon": "mdi:information",
+  "panel_title": "HA Sysinfo",
+  "image": "ghcr.io/git-terje/ha_sysinfo/{arch}-addon-ha_sysinfo"
 }
