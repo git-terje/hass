@@ -1,16 +1,30 @@
-ARG BUILD_FROM
+ARG BUILD_FROM=ghcr.io/home-assistant/base:14.1.1
 FROM $BUILD_FROM
 
 # Installer avhengigheter
-RUN apk add --no-cache nodejs npm git
+RUN apk add --no-cache \
+    nodejs \
+    npm \
+    git \
+    bash
 
-# Klon OpenTHC POS
+# Sett opp arbeidsdir
 WORKDIR /app
-RUN git clone https://github.com/openthc/pos.git .
+
+# Hent OpenTHC POS kildekode
+RUN git clone https://github.com/openthc/pos.git /app
+
+# Installer avhengigheter
 RUN npm install
 
-# Eksponer port
-EXPOSE 8180
+# Bygg frontend hvis nødvendig
+RUN npm run build || true
 
-# Start POS
-CMD ["npm", "start"]
+# Expose ingress-port
+EXPOSE 8280
+
+# Startscript
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+
+CMD [ "/run.sh" ]
