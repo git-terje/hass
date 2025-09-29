@@ -27,6 +27,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Home Assistant builder leser build.json automatisk
       - name: Build and push add-on
         uses: home-assistant/builder@master
         with:
