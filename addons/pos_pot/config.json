@@ -1,6 +1,6 @@
 {
   "name": "POS Pot",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "slug": "pos_pot",
   "description": "POS system for resellers",
   "arch": ["aarch64", "amd64"],
@@ -8,5 +8,5 @@
   "boot": "auto",
   "options": {},
   "schema": {},
-  "image": "ghcr.io/git-terje/pos_pot/{arch}"
+  "image": "ghcr.io/git-terje/pos_pot"
 }
