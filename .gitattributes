@@ -1,0 +1,2 @@
+addons/pos_pot/run.sh linguist-generated=false eol=lf text executable
+addons/pos_pot/rootfs/etc/services.d/pos/run linguist-generated=false eol=lf text executable
