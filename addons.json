@@ -1,10 +1,10 @@
 {
   "pos_pot": {
     "name": "POS Pot",
-    "version": "0.1.9",
+    "version": "0.2.0",
     "slug": "pos_pot",
     "description": "Point of Sale system for cannabis sales integrated with Home Assistant (MariaDB backend).",
-    "arch": ["aarch64", "amd64"],
+    "arch": ["aarch64", "amd64", "armv7"],
     "startup": "services",
     "boot": "auto",
     "ports": {
@@ -20,25 +20,23 @@
     },
     "url": "https://github.com/git-terje/hass",
     "maintainer": "git-terje",
-    "image": "ghcr.io/git-terje/pos_pot",
     "stage": "experimental"
   },
   "openthc_pos": {
     "name": "OpenTHC POS",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "slug": "openthc_pos",
-    "description": "OpenTHC POS integration with Home Assistant.",
+    "description": "OpenTHC Point of Sale integrated as HA add-on.",
     "arch": ["aarch64", "amd64"],
     "startup": "services",
     "boot": "auto",
     "ports": {
       "8280/tcp": 8280
     },
-    "panel_icon": "mdi:leaf",
+    "panel_icon": "mdi:cart",
     "panel_title": "OpenTHC POS",
-    "url": "https://openthc.org/pos",
+    "url": "https://github.com/openthc/pos",
     "maintainer": "git-terje",
-    "image": "ghcr.io/git-terje/openthc_pos",
     "stage": "experimental"
   },
   "ha_sysinfo": {
@@ -46,7 +44,7 @@
     "version": "1.0.7",
     "slug": "ha_sysinfo",
     "description": "Collects and exposes system info, addons, integrations and filtered logs.",
-    "arch": ["aarch64", "amd64"],
+    "arch": ["aarch64", "amd64", "armv7", "i386"],
     "startup": "application",
     "boot": "auto",
     "hassio_api": true,
