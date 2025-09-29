@@ -1,6 +1,7 @@
 name: Build and Publish Add-ons
 
 on:
+  workflow_dispatch:   # Kan trigges manuelt
   push:
     branches:
       - main
@@ -29,14 +30,33 @@ jobs:
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Bump version numbers
+        run: |
+          for addon in addons/*; do
+            if [ -f "$addon/config.json" ]; then
+              version=$(jq -r '.version' $addon/config.json)
+              base=${version%.*}
+              patch=${version##*.}
+              new_version="$base.$((patch+1))"
+              echo "🔼 Bumping $addon from $version → $new_version"
+              tmp=$(mktemp)
+              jq --arg v "$new_version" '.version=$v' $addon/config.json > $tmp && mv $tmp $addon/config.json
+            fi
+          done
+
       - name: Generate addons.json dynamically
         run: |
           python3 .github/scripts/generate_addons.py
 
+      - name: Commit version bump
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: bump addon versions"
+          branch: main
+
       - name: Build and push each addon
-        id: build
         run: |
-          echo "RELEASES=[]" >> $GITHUB_ENV
+          echo "RELEASES=" >> $GITHUB_ENV
           for addon in addons/*; do
             if [ -f "$addon/config.json" ]; then
               name=$(jq -r '.slug' $addon/config.json)
@@ -49,14 +69,12 @@ jobs:
                 -t ghcr.io/${{ github.repository_owner }}/$name:latest \
                 --push $addon
 
-              # Append release info
               echo "RELEASES+=\"$name:$version \"" >> $GITHUB_ENV
             fi
           done
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
-        if: success()
         with:
           tag_name: "addons-${{ github.run_number }}"
           name: "Add-ons Release #${{ github.run_number }}"
