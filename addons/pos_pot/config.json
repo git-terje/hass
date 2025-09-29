@@ -3,7 +3,7 @@
   "version": "0.1.9",
   "slug": "pos_pot",
   "description": "POS system for resellers",
-  "arch": ["aarch64", "amd64"],
+  "arch": ["aarch64", "amd64", "armv7"],
   "startup": "services",
   "boot": "auto",
   "options": {},
