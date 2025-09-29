@@ -34,7 +34,9 @@ jobs:
           python3 .github/scripts/generate_addons.py
 
       - name: Build and push each addon
+        id: build
         run: |
+          echo "RELEASES=[]" >> $GITHUB_ENV
           for addon in addons/*; do
             if [ -f "$addon/config.json" ]; then
               name=$(jq -r '.slug' $addon/config.json)
@@ -46,5 +48,22 @@ jobs:
                 -t ghcr.io/${{ github.repository_owner }}/$name:$version \
                 -t ghcr.io/${{ github.repository_owner }}/$name:latest \
                 --push $addon
+
+              # Append release info
+              echo "RELEASES+=\"$name:$version \"" >> $GITHUB_ENV
             fi
           done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: success()
+        with:
+          tag_name: "addons-${{ github.run_number }}"
+          name: "Add-ons Release #${{ github.run_number }}"
+          body: |
+            Automated release of updated Home Assistant add-ons.
+
+            Built and published add-ons:
+            ${{ env.RELEASES }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
